@@ -1,5 +1,5 @@
-const { generateError } = require('../helpers');
-const { getConnection } = require('./getPool');
+import { generateError } from '../helpers';
+import { getConnection } from '../src/db/getPool';
 
 const detelePostById = async (id) => {
   let connection;
@@ -78,8 +78,8 @@ const createPost = async (userId, text, post = '') => {
     if (connection) connection.release();
   }
 };
-
-module.exports = {
+ 
+export {
   createPost,
   getAllPosts,
   getPostById,

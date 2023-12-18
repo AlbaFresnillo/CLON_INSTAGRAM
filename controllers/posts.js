@@ -1,17 +1,18 @@
-const {
+import {
     createPost,
     getAllPosts,
     getPostById,
-  } = require('../db/posts');
-  const { generateError, createPathIfNotExists } = require('../helpers');
-  const path = require('path');
-  const sharp = require('sharp');
-  const { nanoid } = require('nanoid');
+    deletePostById,
+  } from '../db/posts';
+  import { generateError, createPathIfNotExists } from '../helpers';
+  import path from 'path';
+  import sharp from 'sharp';
+  import { nanoid } from 'nanoid';
   
   const getPostsController = async (req, res, next) => {
     try {
       const posts = await getAllPosts();
-  
+   
       res.send({
         status: 'ok',
         data: posts,
@@ -20,7 +21,7 @@ const {
       next(error);
     }
   };
- 
+  
   const newController = async (req, res, next) => {
     try {
       const { text } = req.body;
@@ -44,7 +45,7 @@ const {
   
         // Procesar la imagen
         const image = sharp(req.files.image.data);
-        //image.resize(1000);
+        image.resize(1000);
   
         // Guardo la imagen con un nombre aleatorio en el directorio resultDir
         imageFileName = `${nanoid(24)}.jpg`;
@@ -53,8 +54,8 @@ const {
       
   
       const id = await createPost(req.userId, text, imageFileName);
-
-      //confirmo que el post esta creado
+  
+      // Confirmo que el post esta creado
   
       res.send({
         status: 'ok',
@@ -93,7 +94,7 @@ const {
           'Estás intentando borrar un post que no es tuyo',
           401
         );
-      }
+      };
   
       // Borrar el post
       await deletePostById(id);
@@ -106,57 +107,10 @@ const {
       next(error);
     }
   };
-
-//Añadir controlador dar/quitar likes
-  const { addLikeController,
-     removeLikeController } 
-     = require('../controllers/likes');
-
-
-  // Controlador para agregar un like a un post
-const addLikeController = (req, res) => {
-  const { post_id } = req.body;
-  const user_id = req.user.id;
   
-  const addLikeQuery = `
-    INSERT INTO likes (user_id, post_id) VALUES (?, ?)
-  `;
-
-  db.query(addLikeQuery, [user_id, post_id], (err, result) => {
-    if (err) {
-      console.error('Error al agregar el like:', err);
-      res.status(500).json({ error: 'No se pudo agregar el like' });
-      return;
-    }
-    res.status(200).json({ message: 'Like agregado exitosamente' });
-  });
-};
-
-// Controlador para quitar un like de un post
-const removeLikeController = (req, res) => {
-  const { post_id } = req.body;
-  const user_id = req.user.id; 
-
-  const removeLikeQuery = `
-    DELETE FROM likes WHERE user_id = ? AND post_id = ?
-  `;
-
-  db.query(removeLikeQuery, [user_id, post_id], (err, result) => {
-    if (err) {
-      console.error('Error al quitar el like:', err);
-      res.status(500).json({ error: 'No se pudo quitar el like' });
-      return;
-    }
-    res.status(200).json({ message: 'Like quitado exitosamente' });
-  });
-};
-
-  
-  module.exports = {
+  export {
     getPostsController,
-    newPostController,
+    newController as newPostController,
     getSinglePostController,
     deletePostController,
-    addLikeController, 
-    removeLikeController
   };

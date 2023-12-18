@@ -1,33 +1,30 @@
-const {
-    addLikeController,
-    removeLikeController
-  } = require('../db/posts');
-  const { generateError, createPathIfNotExists } = require('../helpers');
-  const path = require('path');
-  const sharp = require('sharp');
-  const { nanoid } = require('nanoid');
-  
+// import { nanoid } from 'nanoid';
+// import { path } from 'path';
+// import { sharp } from 'sharp';
+// import { generateError, createPathIfNotExists } from '../helpers';
+import db from '../db/posts';
 
 // Controlador para agregar un like a un post
-const addLikeController = (req, res) => {
+const addLikeController = (req,res) => {
   const { post_id } = req.body;
   const user_id = req.user.id; // Suponiendo que tienes el usuario en el objeto de la solicitud
-
-  const addLikeQuery = `
-    INSERT INTO likes (user_id, post_id) VALUES (?, ?)
+ 
+  const addLikeQuery = 
+  `
+    INSERT INTO LIKES (user_id, post_id) VALUES (?, ?)
   `;
 
   db.query(addLikeQuery, [user_id, post_id], (err, result) => {
-    if (err) {
+    if(err) {
       console.error('Error al agregar el like:', err);
       res.status(500).json({ error: 'No se pudo agregar el like' });
       return;
     }
-    res.status(200).json({ message: 'Like agregado exitosamente' });
+    res.status(200).json({ message: 'Like correctamente agregado'});
   });
 };
 
-// Controlador para quitar un like de un post
+// Controlador para quitar un like a un post
 const removeLikeController = (req, res) => {
   const { post_id } = req.body;
   const user_id = req.user.id; // Suponiendo que tienes el usuario en el objeto de la solicitud
@@ -42,8 +39,11 @@ const removeLikeController = (req, res) => {
       res.status(500).json({ error: 'No se pudo quitar el like' });
       return;
     }
-    res.status(200).json({ message: 'Like quitado exitosamente' });
+    res.status(200).json({ message: 'Like correctamente quitado' });
   });
 };
 
-module.exports = { addLikeController, removeLikeController };
+export { 
+  addLikeController, 
+  removeLikeController 
+};

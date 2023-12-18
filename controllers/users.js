@@ -1,9 +1,10 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { generateError } = require('../helpers');
-const { createUser, getUserById, getUserByEmail } = require('../db/users');
-//const { createAnonymousUser } = require('../db/anonymoususer'); 
-//const { addLikeController, removeLikeController } = require('../controllers/likes');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { generateError } from '../helpers';
+import { createUser, getUserById, getUserByEmail } from '../db/users';
+//import { createAnonymousUser } from '../db/anonymoususer'; 
+//import { addLikeController, removeLikeController } from '../controllers/likes';
+
 const newUserController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -15,7 +16,7 @@ const newUserController = async (req, res, next) => {
       email: Joi.string().email().required(),
       password: Joi.string().min(8).required(),
     });
-    
+  
     // Validar la solicitud con el esquema
     const { error } = schema.validate(req.body);
     
@@ -95,7 +96,7 @@ const loginController = async (req, res, next) => {
   }
 };
 
- //Controlador para crear un usuario anónimo
+ /*Controlador para crear un usuario anónimo
 const createAnonymousUserController = async (req, res, next) => {
   try {
     const user = await createAnonymousUser(); // Utiliza la función para crear usuario anónimo
@@ -109,13 +110,11 @@ const createAnonymousUserController = async (req, res, next) => {
     next(error);
   }
 };
+*/
 
 
-
-module.exports = {
+export {
   newUserController,
   getUserController,
   loginController,
-  //createAnonymousUserController,
-  
 };
