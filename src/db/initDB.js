@@ -7,9 +7,6 @@ import {v4 as uuidv4} from 'uuid';
 // Generar un UUID
 const newUUID = uuidv4();
 
-console.log("MYSQL_USER", process.env.MYSQL_USER)
-
-
 const initDB = async () => {
     try {
         let pool = await getPool();
