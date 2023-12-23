@@ -19,8 +19,8 @@ const selectPostByIdModel = async (postId) => {
     const [photos] = await pool.query(
         `
             SELECT id, name FROM postphotos WHERE postId = ?
-        `
-        [postId]
+        `,
+        [postId] 
     );
 
     post[0].photos = photos;

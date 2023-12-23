@@ -28,14 +28,14 @@ router.get('/posts', listPostsController);
 
 router.get('/posts/:postId', postExistsController, getPostController);
 
-router.post('/posts/:postId/postlikes',
+router.post('/posts/:postId/likes',
             authUserController,
             userExistsController,
             postExistsController,
             likePostController  
 );
 
-router.post('/posts/:postId/postPhotos',
+router.post('/posts/:postId/photos',
             authUserController,
             userExistsController,
             postExistsController,
