@@ -4,14 +4,14 @@ import { notFoundError } from "../../services/errorService.js";
 const updateUserRegCodeModel = async (registrationCode) => {
     const pool = await getPool();
 
-    const [user] = await pool.query(
+    const [users] = await pool.query(
         `
             SELECT id FROM users WHERE registrationCode = ?
         `,
         [registrationCode]
     );
 
-    if(!user.length){
+    if(!users.length < 1){
         notFoundError('usuario');
     }
 

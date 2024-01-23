@@ -1,11 +1,11 @@
 import express from 'express';
 
-import postsRouter from './postsRouter.js';
-import useRouter from './useRouter.js'
+import reelRoutes from './reelRoutes.js';
+import userRoutes from './userRoutes.js'
 
 const router = express.Router();
 
-router.use(postsRouter);
-router.use(useRouter);
+router.use(reelRoutes);
+router.use(userRoutes);
 
 export default router;

@@ -1,19 +1,20 @@
-import selectPostByIdModel from "../models/posts/selectPostByIdModel.js";
+import selectReelByIdModel from "../models/reels/selectReelByIdModel.js";
 import { unauthorizedUserError } from "../services/errorService.js";
 
 const cantEditController = async (req, res, next) => {
     try {
         
-        const { postId } = req.params;
+        const { reelId } = req.params;
 
-        const post = await selectPostByIdModel(postId);
+        const reel = await selectReelByIdModel(reelId);
 
         // Si no somos propietarios no podemos editar nada
-        if (post.userId !== req.user.id) unauthorizedUserError();
-
+        if (reel.userId !== req.user.id) {
+            unauthorizedUserError();
+        }
         next();
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        next(err);
     }
 };
 

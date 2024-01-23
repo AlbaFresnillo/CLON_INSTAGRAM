@@ -5,4 +5,3 @@ const notFoundController = (req,res,next) => {
 };
 
 export default notFoundController;
-

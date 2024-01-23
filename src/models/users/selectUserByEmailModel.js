@@ -3,7 +3,7 @@ import getPool from '../../db/getPool.js';
 const selectUserByEmailModel = async (email) => {
     const pool = await getPool();
 
-    const [user] = await pool.query(
+    const [users] = await pool.query(
         `
             SELECT id, password, role, recoverPassCode, active
             FROM users
@@ -12,7 +12,7 @@ const selectUserByEmailModel = async (email) => {
         [email]
     );
 
-    return user[0];
+    return users[0];
 };
 
 export default selectUserByEmailModel;

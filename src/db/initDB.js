@@ -1,35 +1,43 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import getPool from './getPool.js';
-import {v4 as uuidv4} from 'uuid';
-
-// Generar un UUID
-const newUUID = uuidv4();
+import fs from fs;
 
 const initDB = async () => {
+    // Variable que almacenará una conexión con la base de datos.
+    let pool;
+
     try {
-        let pool = await getPool();
+        pool = await getPool();
 
-   
-        console.log('Creando base de datos...');
-        await pool.query('CREATE DATABASE IF NOT EXISTS instahab');
+        console.log('Borrando tablas...');
 
-        console.log('Usando la base de datos...');
-        await pool.query('USE instahab');
+        // Función para borrar el contenido de la carpeta 'uploads'
+async function borrarContenidoUploads() {
+  const uploadsFolder = 'uploads'; // Ajusta la ruta según tu estructura
+  const files = await fs.promises.readdir(uploadsFolder);
 
-        console.log('Eliminando tablas si existen...');
-        await pool.query('DROP TABLE IF EXISTS users, posts, postPhotos, postLikes, postComments');
+  for (const file of files) {
+      await fs.promises.unlink(path.join(uploadsFolder, file));
+  }
+
+  console.log('Contenido de la carpeta "uploads" borrado correctamente.');
+}
+
+
+       // await pool.query(
+           // 'DROP TABLE IF EXISTS likes, reelPhotos, reels, users'
+      //  );
 
         console.log('Creando tablas...');
+        //Tabla de usuarios
         await pool.query(`
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
             email VARCHAR(100) UNIQUE NOT NULL,
             username VARCHAR(30) UNIQUE NOT NULL,
             password VARCHAR(100) NOT NULL,
+            avatar VARCHAR(100),
             active BOOLEAN DEFAULT false,
-            role ENUM('admin', 'normal') DEFAULT 'normal',
+            role ENUM('admin', 'normal') DEFAULT 'normal', 
             registrationCode CHAR(30),
             recoverPassCode CHAR(10),
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -37,50 +45,55 @@ const initDB = async () => {
 
             )
         `);
-
+          //Tabla de reels
         await pool.query(`
-        CREATE TABLE IF NOT EXISTS posts (
+        CREATE TABLE IF NOT EXISTS reels (
           id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
           text VARCHAR(280),
+          likes DOUBLE DEFAULT 0,
           userId INT NOT NULL,
           createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
           FOREIGN KEY (userId) REFERENCES users(id)
           )
         `);
-
+          //Tabla de fotos
         await pool.query(`
-        CREATE TABLE IF NOT EXISTS postPhotos (
+        CREATE TABLE IF NOT EXISTS reelPhotos (
             id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             name VARCHAR(100) NOT NULL,
-            postId INT NOT NULL,
-            FOREIGN KEY (postId) REFERENCES posts(id),
-            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+            reelId INT NOT NULL,
+            FOREIGN KEY (reelId) REFERENCES reels(id),
+            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP
         )
 `);
 
-
+          //Tabla de likes
         await pool.query(`
-        CREATE TABLE IF NOT EXISTS postLikes (
+        CREATE TABLE IF NOT EXISTS likes (
             id INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-            value TINYINT UNSIGNED NOT NULL,
             userId INT NOT NULL,
-            postId INT NOT NULL,
+            reelId INT NOT NULL,
+            value INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
             FOREIGN KEY (userId) REFERENCES users(id),
-            FOREIGN KEY (postId) REFERENCES posts(id),
-            UNIQUE KEY unique_like (userId, postId)
+            FOREIGN KEY (reelId) REFERENCES reels(id),
+            UNIQUE KEY unique_like (userId, reelId)
           )
         `);
-
+          //Tabla de comentarios
         await pool.query(`
-        CREATE TABLE IF NOT EXISTS postComments (
+        CREATE TABLE IF NOT EXISTS comments (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            comment TEXT,
             userId INT NOT NULL,
-            postId INT NOT NULL,
-            comment_text VARCHAR(280) NOT NULL,
+            reelId INT NOT NULL,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
             FOREIGN KEY (userId) REFERENCES users(id),
-            FOREIGN KEY (postId) REFERENCES posts(id)
+            FOREIGN KEY (reelId) REFERENCES reels(id)
           )
         `);
 
@@ -88,17 +101,23 @@ const initDB = async () => {
 
  console.log('Tabla "users" creada correctamente.');
 
- console.log('Tabla "posts" creada correctamente.');
+ console.log('Tabla "reels" creada correctamente.');
 
- console.log('Tabla "postPhotos" creada correctamente.');
+ console.log('Tabla "reelPhotos" creada correctamente.');
 
- console.log('Tabla "postlikes" creada correctamente.');
+ console.log('Tabla "likes" creada correctamente.');
 
  console.log('Tabla "comments" creada correctamente.');
 
+   // Borrando contenido de la carpeta 'uploads'
+   console.log('Borrando contenido de la carpeta "uploads"...');
+   await borrarContenidoUploads();
+
  pool.end();
-    } catch (error) {
-        console.error('Ha habido un error al crear:', error);
+ console.log('Base de datos inicializada correctamente.');
+
+    } catch (err) {
+        console.error('Ha habido un error al crear:', err);
         pool.end();
     }
 };

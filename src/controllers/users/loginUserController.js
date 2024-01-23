@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import selectUserByEmailModel from "../../models/users/selectUserByEmailModel.js";
 
-import { invalidCredentialsError, pendignActivationError } from '../../services/errorService.js';
+import { invalidCredentialsError, pendingActivationError } from '../../services/errorService.js';
 
 const loginUserController = async (req,res,next) => {
     try {

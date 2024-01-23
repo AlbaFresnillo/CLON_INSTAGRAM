@@ -1,9 +1,9 @@
 import selectUserByEmailModel from "../../models/users/selectUserByEmailModel.js";
 import { notFoundError } from "../../services/errorService.js";
 import randomstring from 'randomstring';
-import updateRecoverPassModel from "../../models/users/updateRecoverPassModel.js";
+import updateRecoverPasswordModel from "../../models/users/updateRecoverPasswordModel.js";
 
-const sendRecoverPassController = async (req,res,next) => {
+const sendRecoverPasswordController = async (req,res,next) => {
     try {
         
         const { email } = req.body;
@@ -20,9 +20,9 @@ const sendRecoverPassController = async (req,res,next) => {
             status: 'ok',
             message: 'Correo de recuperación de contraseña enviado'
         })
-    } catch (error) {
-        next(error)
+    } catch (err) {
+        next(err)
     }
 };
 
-export default sendRecoverPassController;
+export default sendRecoverPasswordController;

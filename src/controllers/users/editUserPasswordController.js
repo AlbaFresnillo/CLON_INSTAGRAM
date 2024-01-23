@@ -1,4 +1,4 @@
-import updateUserPassModel from "../../models/users/updateUserPassModel.js";
+import updateUserPasswordModel from "../../models/users/updateUserPasswordModel.js";
 
 const editUserPasswordController = async (req,res,next) => {
     try {

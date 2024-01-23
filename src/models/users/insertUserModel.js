@@ -1,36 +1,36 @@
 import bcrypt from 'bcrypt';
+import { v4 as uuid } from "uuid";
 import getPool from '../../db/getPool.js';
-
 import sendMailUtil from '../../util/sendMailUtil.js';
 
 import {
-    emailAllReadyRegistratedError,
-    userAllReadyRegistratedError
+    emailAlreadyRegisteredError,
+    userAlreadyRegisteredError
 } from '../../services/errorService.js';
 
 const insertUserModel = async (username, email, password, registrationCode) => {
     const pool = await getPool();
 
-    let [user] = await pool.query(
+    let [users] = await pool.query(
         `
             SELECT id FROM users WHERE username = ?
         `,
         [username]
     );
 
-    if(user.length){
-        userAllReadyRegistratedError();
+    if(users.length>0){
+        userAlreadyRegisteredError();
     };
 
-    [user] = await pool.query(
+    [users] = await pool.query(
         `
             SELECT id FROM users WHERE email = ?
         `,
         [email]
     );
 
-    if(user.length){
-        emailAllReadyRegistratedError();
+    if(users.length>0){
+        emailAlreadyRegisteredError();
     };
 
     /**hacer logica de envio de email */
@@ -41,7 +41,7 @@ const insertUserModel = async (username, email, password, registrationCode) => {
 
             Gracias por registrarse en  📷 INSTAHAB. Para activar tu cuenta haga click en el siguiente enlace:
 
-            <a href="http://localhost:3001/users/validate/${registrationCode}">❤️ Activar mi cuenta ❤️ </a>
+            <a href="http://localhost:3060/auth/activate/${registrationCode}">❤️ Activar mi cuenta ❤️ </a>
     `
 
     await sendMailUtil(email,emailSubject,emailBody);
@@ -50,10 +50,10 @@ const insertUserModel = async (username, email, password, registrationCode) => {
 
     await pool.query(
         `
-            INSERT INTO users (username, email, password, registrationCode)
-            VALUES (?,?,?,?)
+            INSERT INTO users (id,username, email, password, registrationCode)
+            VALUES (?,?,?,?,?)
         `,
-        [username, email, hashedPassword, registrationCode]
+        [uuid(),username, email, hashedPassword, registrationCode]
     );
 };
 

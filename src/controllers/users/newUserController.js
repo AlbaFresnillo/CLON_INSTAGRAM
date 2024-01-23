@@ -1,6 +1,7 @@
 import randomstring from 'randomstring';
 import insertUserModel from '../../models/users/insertUserModel.js';
 
+// Función controladora final que crea un nuevo usuario.
 const newUserController = async (req,res,next) => {
     try {
 
