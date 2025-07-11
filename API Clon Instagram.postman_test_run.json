@@ -1,0 +1,242 @@
+{
+	"id": "6688017d-1442-4de2-abfb-b728a636b809",
+	"name": "API Clon Instagram",
+	"timestamp": "2023-12-23T23:28:32.056Z",
+	"collection_id": "29651616-91d4de45-9fd7-4240-b8a1-1c6295a2a287",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-12-23T23:28:28.909Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "96bf5b01-db7f-4055-b4a3-5d6168a143d9",
+			"name": "newPost",
+			"url": "http://localhost:3001/posts",
+			"time": 24,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				24
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "09186a21-cc9e-440b-b4db-e7554cf5813e",
+			"name": "allPosts",
+			"url": "http://localhost:3001/posts",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				17
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "2242a6d7-5a1d-408e-aee0-812f0585a4ec",
+			"name": "getPostById",
+			"url": "http://localhost:3001/posts/2",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "6c34c6bd-8cc2-4747-aa82-7f93d2e7f9eb",
+			"name": "postLikes",
+			"url": "http://localhost:3001/posts/1/likes",
+			"time": 13,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				13
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "bb3cb8d2-4a6f-4c28-bc35-209ddabbcefd",
+			"name": "postComments",
+			"url": "http://localhost:3001/posts/1/comment",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d23e8e6f-97eb-48f2-87b7-ab69f90e51c2",
+			"name": "new user",
+			"url": "http://localhost:3001/users/register",
+			"time": 10,
+			"responseCode": {
+				"code": 409,
+				"name": "Conflict"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "7089f4e0-b698-408b-9af2-890f8b3059c4",
+			"name": "login",
+			"url": "http://localhost:3001/users/login",
+			"time": 117,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				117
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "86c4c409-5514-42b2-a9b9-ce4d1cdd1d5c",
+			"name": "users",
+			"url": "http://localhost:3001/users/1",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "349364c2-7d85-4fdc-922b-39c3a845f431",
+			"name": "recoverPassword",
+			"url": "http://localhost:3001/users/password/recover",
+			"time": 652,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				652
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "5e6e5b25-5562-461d-86f7-36bcc7a9fec9",
+			"name": "newPassword",
+			"url": "http://localhost:3001/users/password",
+			"time": 7,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 862,
+	"collection": {
+		"requests": [
+			{
+				"id": "96bf5b01-db7f-4055-b4a3-5d6168a143d9",
+				"method": "POST"
+			},
+			{
+				"id": "09186a21-cc9e-440b-b4db-e7554cf5813e",
+				"method": "GET"
+			},
+			{
+				"id": "2242a6d7-5a1d-408e-aee0-812f0585a4ec",
+				"method": "GET"
+			},
+			{
+				"id": "6c34c6bd-8cc2-4747-aa82-7f93d2e7f9eb",
+				"method": "POST"
+			},
+			{
+				"id": "bb3cb8d2-4a6f-4c28-bc35-209ddabbcefd",
+				"method": "POST"
+			},
+			{
+				"id": "d23e8e6f-97eb-48f2-87b7-ab69f90e51c2",
+				"method": "POST"
+			},
+			{
+				"id": "7089f4e0-b698-408b-9af2-890f8b3059c4",
+				"method": "POST"
+			},
+			{
+				"id": "86c4c409-5514-42b2-a9b9-ce4d1cdd1d5c",
+				"method": "GET"
+			},
+			{
+				"id": "349364c2-7d85-4fdc-922b-39c3a845f431",
+				"method": "POST"
+			},
+			{
+				"id": "5e6e5b25-5562-461d-86f7-36bcc7a9fec9",
+				"method": "PUT"
+			}
+		]
+	}
+}
