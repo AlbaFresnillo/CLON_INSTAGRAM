@@ -11,7 +11,7 @@ import listEndpoints from 'express-list-endpoints';
 const server = express();
 
 dotenv.config();
-//const UPLOADS_DIR = process.env.UPLOADS_DIR || '';
+const { UPLOADS_DIR } = process.env;
 
 server.use(morgan('dev'));
 server.use(express.json());
